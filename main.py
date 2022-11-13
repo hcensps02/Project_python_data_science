@@ -37,5 +37,3 @@ for i in dfs:
 # merging mean overall and gender-specific df
 
 df_mean_merged = dfs_mean[0].to_frame().merge(dfs_mean[1], how='left').merge(dfs_mean[2], how='left')
-
-### bla bla bla
