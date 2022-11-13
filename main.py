@@ -25,6 +25,9 @@ print(df.info())
 # We compute the churn rate by computing the average on the var 'Exited'
 churn_rate = statistics.mean(df['Exited'])
 
+# get the summary of the var contained in the dataset generating a summary table
+
+
 #creating gender-specific dataframes
 male_df = df[df['Gender'] == 'Male']
 female_df = df[df['Gender'] == 'Female']
