@@ -15,7 +15,15 @@ print(cwd)
 df = pd.read_csv(r'/Users/hugoc/Desktop/Academic/M2 QEA Dauphine/Python for data science/Project/Input/churn_bank.csv')
 print(df)
 
+
+##### identifying the churn rate among bank's customers #####
+
+# resuming all the data contained in the data frame
 print(df.info())
+
+# var 'Exited' seems to be the target variable with which we can compute the churn rate. Hence, the variable is a dummy (either O or 1).
+# We compute the churn rate by computing the average on the var 'Exited'
+churn_rate = statistics.mean(df['Exited'])
 
 #creating gender-specific dataframes
 male_df = df[df['Gender'] == 'Male']
