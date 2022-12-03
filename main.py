@@ -50,4 +50,16 @@ df_mean_merged = dfs_mean[0].to_frame().merge(dfs_mean[1], how='left').merge(dfs
 #########################################################################################################################
 ################################# Implementing a simple machine learning model ##########################################
 
+from sklearn.neighbors import KNeighborsClassifier
+
+
+# reformating the dataset in order to remove non-explanatory variables (columns) such as customer_id or surnames
+df.drop(['CustomerId', 'Surname'], inplace=True, axis=1)
+
+algorithm = KNeighborsClassifier(algorithm = 'auto', n_neighbors=5)
+X = df
+Y = df['Exited']
+Y = Y.to_frame(name = None)
+
+algorithm.fit(X, Y)
 
