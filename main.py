@@ -54,20 +54,34 @@ from sklearn.preprocessing import OrdinalEncoder
 from category_encoders import OrdinalEncoder
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
+from sklearn import model_selection
+from sklearn import preprocessing
+from sklearn import pipeline
 
-# reformating the dataset in order to remove non-explanatory variables (columns) such as customer_id or surnames
+# preprocessing dataset
 df.drop(['CustomerId', 'Surname'], inplace=True, axis=1)
+
+# Specifying the model to train and test
+pipe = pipeline.make_pipeline(preprocessing.StandardScaler(), KNeighborsClassifier(11))
+
+
 
 ord_enc = OrdinalEncoder()
 df['Geography'] = ord_enc.fit_transform(df['Geography'])
 df['Gender'] = ord_enc.fit_transform(df['Gender'])
 
-algorithm = KNeighborsClassifier(algorithm = 'auto', n_neighbors=5)
+# defining explanatory variables dataset, target variable dataset, train and test sets
 X = df
 Y = df['Exited']
+X_train, X_test, Y_train, Y_test = model_selection.train_test_split(X, Y, test_size=0.3)
+
+
+
 
 algorithm.fit(X, Y)
 
-new_X = X
-new_Y = algorithm.predict(new_X)
+
+
+
+
 
