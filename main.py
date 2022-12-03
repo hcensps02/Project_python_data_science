@@ -25,9 +25,6 @@ print(df.info())
 # We compute the churn rate by computing the average on the var 'Exited'
 churn_rate = statistics.mean(df['Exited'])
 
-# get the summary of the var contained in the dataset generating a summary table
-
-
 #creating gender-specific dataframes
 male_df = df[df['Gender'] == 'Male']
 female_df = df[df['Gender'] == 'Female']
@@ -36,6 +33,8 @@ female_df = df[df['Gender'] == 'Female']
 male_basic_stats = male_df.describe()
 female_basic_stats = female_df.describe()
 overall_basic_stats = df.describe()
+
+# bite
 
 # storing basic stats dfs
 dfs = [male_basic_stats, female_basic_stats, overall_basic_stats]
@@ -46,5 +45,4 @@ for i in dfs:
     dfs_mean.append(temp_df)
 
 # merging mean overall and gender-specific df
-
 df_mean_merged = dfs_mean[0].to_frame().merge(dfs_mean[1], how='left').merge(dfs_mean[2], how='left')
