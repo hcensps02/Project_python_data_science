@@ -59,20 +59,21 @@ from sklearn import preprocessing
 from sklearn import pipeline
 
 # preprocessing dataset
-df.drop(['CustomerId', 'Surname'], inplace=True, axis=1)
+df.drop(['CustomerId', 'Surname', 'Tenure', 'Balance', 'NumOfProducts', 'HasCrCard', 'IsActiveMember'], inplace=True, axis=1)
 
 ord_enc = OrdinalEncoder()
 df['Geography'] = ord_enc.fit_transform(df['Geography'])
 df['Gender'] = ord_enc.fit_transform(df['Gender'])
 
+Y = df['Exited']
+X = df
+
 
 # Specifying the model to train and test
-pipe = pipeline.make_pipeline(preprocessing.StandardScaler(), KNeighborsClassifier(7))
+pipe = pipeline.make_pipeline(preprocessing.StandardScaler(), KNeighborsClassifier(11))
 
 # defining explanatory variables dataset, target variable dataset, train and test sets
-X = df
-Y = df['Exited']
-X_train, X_test, Y_train, Y_test = model_selection.train_test_split(X, Y, test_size=0.3, random_state=51)
+X_train, X_test, Y_train, Y_test = model_selection.train_test_split(X, Y, test_size=0.3, random_state=53)
 
 
 # running the model on the train dataset
