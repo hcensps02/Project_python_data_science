@@ -69,22 +69,22 @@ Y = df['Exited']
 X = df
 
 
-# Specifying the model to train and test
-pipe = pipeline.make_pipeline(preprocessing.StandardScaler(), KNeighborsClassifier(11))
+    # Specifying the model to train and test
+    pipe = pipeline.make_pipeline(preprocessing.StandardScaler(), KNeighborsClassifier(11))
 
-# defining explanatory variables dataset, target variable dataset, train and test sets
-X_train, X_test, Y_train, Y_test = model_selection.train_test_split(X, Y, test_size=0.3, random_state=53)
+    # defining explanatory variables dataset, target variable dataset, train and test sets
+    X_train, X_test, Y_train, Y_test = model_selection.train_test_split(X, Y, test_size=0.3, random_state=53)
 
 
-# running the model on the train dataset
-pipe.fit(X_train, Y_train)
+    # running the model on the train dataset
+    pipe.fit(X_train, Y_train)
 
-Y_pred = pipe.predict(X_test)
+    Y_pred = pipe.predict(X_test)
 
-# model accuracy
-accuracy_score(Y_test, Y_pred)
+    # model accuracy
+    accuracy_score(Y_test, Y_pred)
 
-confusion_matrix(Y_test, Y_pred)
+    confusion_matrix(Y_test, Y_pred)
 
 
 
