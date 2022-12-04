@@ -66,13 +66,13 @@ df['Geography'] = ord_enc.fit_transform(df['Geography'])
 df['Gender'] = ord_enc.fit_transform(df['Gender'])
 
 Y = pd.DataFrame(df['Exited'])
-X = df.drop('Exited', inplace=True, axis=1)
+X = df
 
 accur = []
 
 for i in range(1,40):
     # Specifying the model to train and test
-    pipe = pipeline.make_pipeline(preprocessing.StandardScaler(), KNeighborsClassifier(11))
+    pipe = pipeline.make_pipeline(preprocessing.StandardScaler(), KNeighborsClassifier(i))
     # defining explanatory variables dataset, target variable dataset, train and test sets
     X_train, X_test, Y_train, Y_test = model_selection.train_test_split(X, Y, test_size=0.3, random_state=53)
     # running the model on the train dataset
@@ -81,10 +81,6 @@ for i in range(1,40):
     # model accuracy
     accuracy_temp = accuracy_score(Y_test, Y_pred)
     accur.append(accuracy_temp)
-
-
-
-    confusion_matrix(Y_test, Y_pred)
 
 
 
