@@ -6,6 +6,7 @@ import numpy
 import pandas as pd
 from functools import reduce
 import numpy as np
+import matplotlib.pyplot as plt
 
 cwd = os.getcwd()
 print(cwd)
@@ -66,6 +67,7 @@ df['Geography'] = ord_enc.fit_transform(df['Geography'])
 df['Gender'] = ord_enc.fit_transform(df['Gender'])
 
 Y = pd.DataFrame(df['Exited'])
+X = df.drop('Exited', inplace=True, axis=1)
 X = df
 
 accur = []
@@ -81,6 +83,10 @@ for i in range(1,40):
     # model accuracy
     accuracy_temp = accuracy_score(Y_test, Y_pred)
     accur.append(accuracy_temp)
+
+### generating matplotlib graphs
+
+
 
 
 
