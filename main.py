@@ -7,6 +7,7 @@ import pandas as pd
 from functools import reduce
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 
 cwd = os.getcwd()
 print(cwd)
@@ -72,7 +73,7 @@ X = df
 
 accur = []
 
-for i in range(1,40):
+for i in range(1,80):
     # Specifying the model to train and test
     pipe = pipeline.make_pipeline(preprocessing.StandardScaler(), KNeighborsClassifier(i))
     # defining explanatory variables dataset, target variable dataset, train and test sets
@@ -86,6 +87,8 @@ for i in range(1,40):
 
 ### generating matplotlib graphs
 
+fig, ax = plt.subplots()  # Create a figure containing a single axes.
+ax.plot(np.arange(79), accur);  # Plot some data on the axes.
 
 
 
