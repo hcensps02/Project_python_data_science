@@ -92,10 +92,6 @@ ax.plot(np.arange(79), accur);  # Plot some data on the axes.
 
 
 
-# comment test 2
-# comment test 3
-
-
 
 
 
