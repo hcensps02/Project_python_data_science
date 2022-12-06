@@ -85,7 +85,6 @@ for i in range(1,80):
 fig, ax = plt.subplots()  # Create a figure containing a single axes.
 ax.plot(np.arange(79), accur);  # Plot some data on the axes.
 
-blabla
 
 # comment test 2
 # comment test 3
