@@ -1,13 +1,10 @@
 
 import os
 import statistics
-import numpy
 
-import pandas as pd
-from functools import reduce
-import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib as mpl
+import numpy as np
+import pandas as pd
 
 cwd = os.getcwd()
 print(cwd)
@@ -52,10 +49,8 @@ df_mean_merged = dfs_mean[0].to_frame().merge(dfs_mean[1], how='left').merge(dfs
 ################################# Implementing a simple machine learning model ##########################################
 
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.preprocessing import OrdinalEncoder
 from category_encoders import OrdinalEncoder
 from sklearn.metrics import accuracy_score
-from sklearn.metrics import confusion_matrix
 from sklearn import model_selection
 from sklearn import preprocessing
 from sklearn import pipeline
