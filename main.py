@@ -51,7 +51,7 @@ for i in dfs:
 df_mean_merged = dfs_mean[0].to_frame().merge(dfs_mean[1], how='left').merge(dfs_mean[2], how='left')
 
 #########################################################################################################################
-################################# Implementing a simple machine learning model ##########################################
+################################# Implementing a simple machine learning model (Knn model) ##########################################
 
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import OrdinalEncoder
@@ -100,8 +100,45 @@ fig.align_labels()
 data = [accur.index(max(accur)), max(accur)]
 best_model_select = pd.DataFrame([data], columns=["KNeighborsClassifier", "Accuracy"])
 
-
+####################################################################################
 ### We implement the Knn ML model for a higher range of variables taken into account
+####################################################################################
+
+df.drop(['Surname'], inplace=True, axis=1)
+
+ord_enc = OrdinalEncoder()
+df['Geography'] = ord_enc.fit_transform(df['Geography'])
+df['Gender'] = ord_enc.fit_transform(df['Gender'])
+
+Y = pd.DataFrame(df['Exited'])
+df.drop(['Exited'], inplace=True, axis=1)
+X = df
+
+accur = []
+
+for i in range(1,80):
+    # Specifying the model to train and test
+    pipe = pipeline.make_pipeline(preprocessing.StandardScaler(), KNeighborsClassifier(i))
+    # defining explanatory variables dataset, target variable dataset, train and test sets
+    X_train, X_test, Y_train, Y_test = model_selection.train_test_split(X, Y, test_size=0.3, random_state=53)
+    # running the model on the train dataset
+    pipe.fit(X_train, Y_train)
+    Y_pred = pipe.predict(X_test)
+    # model accuracy
+    accuracy_temp = accuracy_score(Y_test, Y_pred)
+    accur.append(accuracy_temp)
+
+### generating matplotlib graphs
+fig, ax = plt.subplots()  # Create a figure containing a single axes.
+ax.plot(np.arange(1,80), accur);  # Plot some data on the axes.
+ax.set_xlabel('Neighbors')
+ax.set_ylabel('Accuracy')
+fig.align_labels()
+
+### Selecting the best model among the ones tested with different KNeighborsClassifier
+data = [accur.index(max(accur)), max(accur)]
+best_model_select = pd.DataFrame([data], columns=["KNeighborsClassifier", "Accuracy"])
+
 
 
 
