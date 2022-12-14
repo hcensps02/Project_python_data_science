@@ -79,7 +79,7 @@ Y = pd.DataFrame(df['Exited'])
 X = df.drop('Exited', inplace=True, axis=1)
 X = df
 
-accur = []
+accur1 = []
 
 for i in range(1,80):
     # Specifying the model to train and test
@@ -91,24 +91,26 @@ for i in range(1,80):
     Y_pred = pipe.predict(X_test)
     # model accuracy
     accuracy_temp = accuracy_score(Y_test, Y_pred)
-    accur.append(accuracy_temp)
+    accur1.append(accuracy_temp)
 
 ### generating matplotlib graphs
 fig, ax = plt.subplots()  # Create a figure containing a single axes.
-ax.plot(np.arange(1,80), accur);  # Plot some data on the axes.
+ax.plot(np.arange(1,80), accur1);  # Plot some data on the axes.
 ax.set_xlabel('Neighbors')
 ax.set_ylabel('Accuracy')
 fig.align_labels()
 
 ### Selecting the best model among the ones tested with different KNeighborsClassifier
-data = [accur.index(max(accur)), max(accur)]
+data = [accur1.index(max(accur1)), max(accur1)]
 best_model_select = pd.DataFrame([data], columns=["KNeighborsClassifier", "Accuracy"])
 
 ####################################################################################
 ### We implement the Knn ML model for a higher range of variables taken into account
 ####################################################################################
 
-df.drop(['Surname'], inplace=True, axis=1)
+df = pd.read_csv(r'/Users/hugoc/Desktop/Academic/M2 QEA Dauphine/Python for data science/Project/Input/churn_bank.csv')
+
+df.drop(['Surname', 'CustomerId'], inplace=True, axis=1)
 
 ord_enc = OrdinalEncoder()
 df['Geography'] = ord_enc.fit_transform(df['Geography'])
@@ -118,7 +120,7 @@ Y = pd.DataFrame(df['Exited'])
 df.drop(['Exited'], inplace=True, axis=1)
 X = df
 
-accur = []
+accur2 = []
 
 for i in range(1,80):
     # Specifying the model to train and test
@@ -130,39 +132,27 @@ for i in range(1,80):
     Y_pred = pipe.predict(X_test)
     # model accuracy
     accuracy_temp = accuracy_score(Y_test, Y_pred)
-    accur.append(accuracy_temp)
+    accur2.append(accuracy_temp)
 
 ### generating matplotlib graphs
 fig, ax = plt.subplots()  # Create a figure containing a single axes.
-ax.plot(np.arange(1,80), accur);  # Plot some data on the axes.
+ax.plot(np.arange(1,80), accur2);  # Plot some data on the axes.
 ax.set_xlabel('Neighbors')
 ax.set_ylabel('Accuracy')
 fig.align_labels()
 
 ### Selecting the best model among the ones tested with different KNeighborsClassifier
-data = [accur.index(max(accur)), max(accur)]
+data = [accur2.index(max(accur2)), max(accur2)]
 best_model_select = pd.DataFrame([data], columns=["KNeighborsClassifier", "Accuracy"])
 
 
+### Plotting both accuracy graphs in order to compare respective models' performances
+fig, ax = plt.subplots()  # Create a figure containing a single axes.
+ax.plot(np.arange(1,80), accur1, accur2);  # Plot some data on the axes.
+ax.set_xlabel('Neighbors')
+ax.set_ylabel('Accuracy')
+fig.align_labels()
 
-
-
-
-
-
-roc_auc_score(Y_test, Y_pred)
-fpr, tpr, thresholds = roc_curve(Y_test, Y_pred)
-plt.figure()
-plt.plot(fpr, tpr, label='Probit Model (area = %0.2f)')
-plt.plot([0, 1], [0, 1],'r--')
-plt.xlim([0.0, 1.0])
-plt.ylim([0.0, 1.05])
-plt.xlabel('False Positive Rate')
-plt.ylabel('True Positive Rate')
-plt.title('Receiver operating characteristic')
-plt.legend(loc="lower right")
-plt.savefig('Probit_ROC')
-plt.show()
 
 
 
