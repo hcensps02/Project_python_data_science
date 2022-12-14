@@ -15,6 +15,8 @@ plt.style.use('ggplot')
 ### Import the python equivalent of here package in R
 from pyhere import here
 
+here()
+
 
 cwd = os.getcwd()
 print(cwd)
@@ -68,8 +70,7 @@ from sklearn.metrics import roc_curve
 from sklearn import model_selection
 from sklearn import preprocessing
 from sklearn import pipeline
-import seaborn as sns
-import seaborn.objects as so
+
 
 ### preprocessing dataset
 df.drop(['CustomerId', 'Surname', 'Tenure', 'Balance', 'NumOfProducts', 'HasCrCard', 'IsActiveMember'], inplace=True, axis=1)
@@ -155,6 +156,23 @@ ax.plot(np.arange(1,80), accur1, accur2);  # Plot some data on the axes.
 ax.set_xlabel('Neighbors')
 ax.set_ylabel('Accuracy')
 fig.align_labels()
+
+
+
+roc_auc = roc_auc_score(Y_test, Y_pred)
+fpr, tpr, thresholds = roc_curve(Y_test, Y_pred)
+plt.figure()
+plt.plot(fpr, tpr, label='ML Model (area = %0.2f)' % roc_auc)
+plt.plot([0, 1], [0, 1],'r--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver operating characteristic')
+plt.legend(loc="lower right")
+plt.savefig('ML_ROC')
+plt.show()
+
 
 
 
