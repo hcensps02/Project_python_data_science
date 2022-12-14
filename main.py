@@ -56,7 +56,7 @@ df_mean_merged = dfs_mean[0].to_frame().merge(dfs_mean[1], how='left').merge(dfs
 
 
 ###################################################################################
-###                                 Data analsis                                ###
+###                                 Data analysis                                ###
 ###################################################################################
 
 fig,ax=plt.subplots(figsize=[7,5])
