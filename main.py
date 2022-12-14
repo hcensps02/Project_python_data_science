@@ -8,6 +8,8 @@ from functools import reduce
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+import sklearn.metrics
+
 plt.style.use('ggplot')
 
 
@@ -58,6 +60,8 @@ from sklearn.preprocessing import OrdinalEncoder
 from category_encoders import OrdinalEncoder
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
+from sklearn.metrics import roc_auc_score
+from sklearn.metrics import roc_curve
 from sklearn import model_selection
 from sklearn import preprocessing
 from sklearn import pipeline
@@ -138,6 +142,27 @@ fig.align_labels()
 ### Selecting the best model among the ones tested with different KNeighborsClassifier
 data = [accur.index(max(accur)), max(accur)]
 best_model_select = pd.DataFrame([data], columns=["KNeighborsClassifier", "Accuracy"])
+
+
+
+
+
+
+
+
+roc_auc_score(Y_test, Y_pred)
+fpr, tpr, thresholds = roc_curve(Y_test, Y_pred)
+plt.figure()
+plt.plot(fpr, tpr, label='Probit Model (area = %0.2f)')
+plt.plot([0, 1], [0, 1],'r--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver operating characteristic')
+plt.legend(loc="lower right")
+plt.savefig('Probit_ROC')
+plt.show()
 
 
 
