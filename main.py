@@ -8,6 +8,7 @@ from functools import reduce
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+plt.style.use('ggplot')
 
 
 cwd = os.getcwd()
@@ -60,6 +61,8 @@ from sklearn.metrics import confusion_matrix
 from sklearn import model_selection
 from sklearn import preprocessing
 from sklearn import pipeline
+import seaborn as sns
+import seaborn.objects as so
 
 # preprocessing dataset
 df.drop(['CustomerId', 'Surname', 'Tenure', 'Balance', 'NumOfProducts', 'HasCrCard', 'IsActiveMember'], inplace=True, axis=1)
@@ -87,9 +90,16 @@ for i in range(1,80):
     accur.append(accuracy_temp)
 
 ### generating matplotlib graphs
-
 fig, ax = plt.subplots()  # Create a figure containing a single axes.
-ax.plot(np.arange(79), accur);  # Plot some data on the axes.
+ax.plot(np.arange(1,80), accur);  # Plot some data on the axes.
+ax.set_xlabel('Neighbors')
+ax.set_ylabel('Accuracy')
+fig.align_labels()
+
+### Selecting the best model among the ones tested with different KNeighborsClassifier
+data = [accur.index(max(accur)), max(accur)]
+best_model_select = pd.DataFrame([data], columns=["KNeighborsClassifier", "Accuracy"])
+
 
 
 
