@@ -11,7 +11,6 @@ import matplotlib as mpl
 import sklearn.metrics
 
 
-
 plt.style.use('ggplot')
 
 ### Import the python equivalent of here package in R
