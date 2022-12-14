@@ -61,7 +61,6 @@ sns.displot(data=df, x="Age", hue="Geography", kind="kde",common_norm=False)
 sns.displot(data=df, x="Age", hue="Gender", kind="kde",common_norm=False)
 sns.displot(data=df, x="Age", hue="Gender", kind="kde",common_norm=False)
 
-sns.catplot(data=df, x="Geography", y="EstimatedSalary", kind="box")
 sns.catplot(data=df, x="Gender", y="EstimatedSalary", kind="box")
 
 sns.countplot(x='NumOfProducts', hue='Gender', data=df, palette='hls') #trouver comment partager l'histogramme entre exited non exited
@@ -81,6 +80,7 @@ df2 = pd.DataFrame({'Geography': counts},
                    )
 ax = df2.plot.pie(y='Geography', figsize=(5,5), autopct='%1.1f%%')
 sns.displot(data=df, x="Balance", hue="Geography", kind="kde", common_norm=False) #grosse concentration en France et Spain autour de zero et negatif, Germany concentration en positif
+sns.catplot(data=df, x="Geography", y="EstimatedSalary", kind="box")
 
 ##Geography
 G_nb_products = px.histogram(df, x='Geography', color='NumOfProducts', barnorm = 'fraction', barmode='relative',text_auto=True).update_yaxes(categoryorder='total ascending')
