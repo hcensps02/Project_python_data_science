@@ -101,6 +101,10 @@ data = [accur.index(max(accur)), max(accur)]
 best_model_select = pd.DataFrame([data], columns=["KNeighborsClassifier", "Accuracy"])
 
 
+### We implement the Knn ML model for a higher range of variables taken into account
+
+
+
 
 
 
