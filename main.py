@@ -64,7 +64,7 @@ from sklearn import pipeline
 import seaborn as sns
 import seaborn.objects as so
 
-# preprocessing dataset
+### preprocessing dataset
 df.drop(['CustomerId', 'Surname', 'Tenure', 'Balance', 'NumOfProducts', 'HasCrCard', 'IsActiveMember'], inplace=True, axis=1)
 
 ord_enc = OrdinalEncoder()
