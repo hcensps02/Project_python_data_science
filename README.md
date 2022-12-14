@@ -2,8 +2,6 @@
 project in data science course using python
 
 
-bla bla bla 
-
 
 
 
