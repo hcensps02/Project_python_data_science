@@ -14,17 +14,11 @@ plt.style.use('ggplot')
 
 ### Import the python equivalent of here package in R
 from pyhere import here
-
-here()
-
-
-cwd = os.getcwd()
-print(cwd)
+data = here('Input', 'churn_bank.csv')
 
 # importing the dataset
-df = pd.read_csv(r'/Users/hugoc/Desktop/Academic/M2 QEA Dauphine/Python for data science/Project/Input/churn_bank.csv')
+df = pd.read_csv(data)
 print(df)
-
 
 ##### identifying the churn rate among bank's customers #####
 
@@ -145,11 +139,6 @@ ax.set_xlabel('Neighbors')
 ax.set_ylabel('Accuracy')
 fig.align_labels()
 
-### Selecting the best model among the ones tested with different KNeighborsClassifier
-data = [accur2.index(max(accur2)), max(accur2)]
-best_model_select = pd.DataFrame([data], columns=["KNeighborsClassifier", "Accuracy"])
-
-
 ### Plotting both accuracy graphs in order to compare respective models' performances
 fig, ax = plt.subplots()  # Create a figure containing a single axes.
 ax.plot(np.arange(1,80), accur1, accur2);  # Plot some data on the axes.
@@ -157,10 +146,24 @@ ax.set_xlabel('Neighbors')
 ax.set_ylabel('Accuracy')
 fig.align_labels()
 
+### Selecting the best model among the ones tested with different KNeighborsClassifier
+data = [accur2.index(max(accur2)), max(accur2)]
+best_model_select = pd.DataFrame([data], columns=["KNeighborsClassifier", "Accuracy"])
 
+
+### We run the best model in order to extract the ROC curve
+pipe = pipeline.make_pipeline(preprocessing.StandardScaler(), KNeighborsClassifier(accur2.index(max(accur2))))
+# defining explanatory variables dataset, target variable dataset, train and test sets
+X_train, X_test, Y_train, Y_test = model_selection.train_test_split(X, Y, test_size=0.3, random_state=53)
+# running the model on the train dataset
+pipe.fit(X_train, Y_train)
+Y_pred = pipe.predict(X_test)
+Y_pred_proba = pipe.predict_proba(X_test)
+# model accuracy
+print(accuracy_score(Y_test, Y_pred))
 
 roc_auc = roc_auc_score(Y_test, Y_pred)
-fpr, tpr, thresholds = roc_curve(Y_test, Y_pred)
+fpr, tpr, thresholds = roc_curve(Y_test, Y_pred_proba[:,1])
 plt.figure()
 plt.plot(fpr, tpr, label='ML Model (area = %0.2f)' % roc_auc)
 plt.plot([0, 1], [0, 1],'r--')
