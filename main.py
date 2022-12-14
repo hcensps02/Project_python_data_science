@@ -53,7 +53,11 @@ for i in dfs:
 # merging mean overall and gender-specific df
 df_mean_merged = dfs_mean[0].to_frame().merge(dfs_mean[1], how='left').merge(dfs_mean[2], how='left')
 
-#############Data analsis
+
+
+###################################################################################
+###                                 Data analsis                                ###
+###################################################################################
 
 fig,ax=plt.subplots(figsize=[7,5])
 sns.histplot(df,x="EstimatedSalary")
@@ -218,6 +222,7 @@ Y = pd.DataFrame(df['Exited'])
 df.drop(['Exited'], inplace=True, axis=1)
 X = df
 
+
 accur2 = []
 
 for i in range(1,80):
@@ -262,6 +267,8 @@ Y_pred_proba = pipe.predict_proba(X_test)
 # model accuracy
 print(accuracy_score(Y_test, Y_pred))
 
+
+###
 roc_auc = roc_auc_score(Y_test, Y_pred)
 fpr, tpr, thresholds = roc_curve(Y_test, Y_pred_proba[:,1])
 plt.figure()
