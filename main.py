@@ -212,6 +212,7 @@ ax.set_xlabel('Neighbors')
 ax.set_ylabel('Accuracy')
 fig.align_labels()
 plt.savefig('ML_accur_selected_var_model')
+plt.title('Knn model accuracy (subset of variables)')
 
 ### Selecting the best model among the ones tested with different KNeighborsClassifier
 data = [accur1.index(max(accur1)), max(accur1)]
@@ -256,6 +257,7 @@ ax.plot(np.arange(1,80), accur2);  # Plot some data on the axes.
 ax.set_xlabel('Neighbors')
 ax.set_ylabel('Accuracy')
 fig.align_labels()
+plt.title('Knn model accuracy (all variables)')
 plt.savefig('ML_accur_model_complete')
 
 ### Plotting both accuracy graphs in order to compare respective models' performances
@@ -264,6 +266,7 @@ ax.plot(np.arange(1,80), accur1, accur2);  # Plot some data on the axes.
 ax.set_xlabel('Neighbors')
 ax.set_ylabel('Accuracy')
 fig.align_labels()
+plt.title('Comparison of both Knn models accuracies')
 plt.savefig('ML_accur_comparison')
 
 ### Selecting the best model among the ones tested with different KNeighborsClassifier
