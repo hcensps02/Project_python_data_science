@@ -212,7 +212,9 @@ best_model_select = pd.DataFrame([data], columns=["KNeighborsClassifier", "Accur
 ### We implement the Knn ML model for a higher range of variables taken into account
 ####################################################################################
 
-df = pd.read_csv(r'/Users/hugoc/Desktop/Academic/M2 QEA Dauphine/Python for data science/Project/Input/churn_bank.csv')
+data = here('Input', 'churn_bank.csv')
+# importing the dataset
+df = pd.read_csv(data)
 
 df.drop(['Surname', 'CustomerId'], inplace=True, axis=1)
 
