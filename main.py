@@ -56,8 +56,9 @@ df_mean_merged = dfs_mean[0].to_frame().merge(dfs_mean[1], how='left').merge(dfs
 
 
 ###################################################################################
-###                                 Data analsis                                ###
+###                                 Data analysis                                ###
 ###################################################################################
+
 
 fig,ax=plt.subplots(figsize=[7,5])
 sns.histplot(df,x="EstimatedSalary")
@@ -155,8 +156,9 @@ f = open('myreg.tex', 'w')
 f.write(probit_model.summary().as_latex())
 
 
-#########################################################################################################################
-################################# Implementing a simple machine learning model (Knn model) ##########################################
+########################################################################################################
+##########       Implementing a simple machine learning model (Knn model)                  #############
+########################################################################################################
 
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import OrdinalEncoder
@@ -266,6 +268,8 @@ Y_pred_proba = pipe.predict_proba(X_test)
 # model accuracy
 print(accuracy_score(Y_test, Y_pred))
 
+
+### generating the ROC curve graph
 roc_auc = roc_auc_score(Y_test, Y_pred)
 fpr, tpr, thresholds = roc_curve(Y_test, Y_pred_proba[:,1])
 plt.figure()
