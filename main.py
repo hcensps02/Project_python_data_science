@@ -11,6 +11,7 @@ import plotly.express as px
 import sklearn.metrics
 
 
+
 plt.style.use('ggplot')
 
 ### Import the python equivalent of here package in R
@@ -36,22 +37,23 @@ male_df = df[df['Gender'] == 'Male']
 female_df = df[df['Gender'] == 'Female']
 
 # comparing means computed on all df
-male_basic_stats = male_df.describe()
-female_basic_stats = female_df.describe()
-overall_basic_stats = df.describe()
+male_basic_stats = male_df.describe(include = 'all').round(decimals=2)
+female_basic_stats = female_df.describe(include = 'all').round(decimals=2)
+
+overall_basic_stats = df.describe(include = 'all').drop(['Surname', 'CustomerId'], axis=1).round(decimals=2)
+overall_basic_stats.plot()
+
+#exporting basic statistics tables into latex tables
+print(male_basic_stats.to_latex(index=False))
+print(female_basic_stats.to_latex(index=False))
+print(overall_basic_stats.drop(['Surname', 'CustomerId'], axis=1).to_latex(index=False))
 
 
+# Generating corr matrix
+modif_df = df.drop(['Surname', 'CustomerId'], axis=1)
+corr_mat = modif_df.corr().round(decimals=2)
+print(corr_mat.to_latex(index=False))
 
-# storing basic stats dfs
-dfs = [male_basic_stats, female_basic_stats, overall_basic_stats]
-
-dfs_mean = []
-for i in dfs:
-    temp_df = i.loc['mean']
-    dfs_mean.append(temp_df)
-
-# merging mean overall and gender-specific df
-df_mean_merged = dfs_mean[0].to_frame().merge(dfs_mean[1], how='left').merge(dfs_mean[2], how='left')
 
 
 
