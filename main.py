@@ -216,13 +216,13 @@ fig.align_labels()
 data = [accur1.index(max(accur1)), max(accur1)]
 best_model_select = pd.DataFrame([data], columns=["KNeighborsClassifier", "Accuracy"])
 
-####################################################################################
-### We implement the Knn ML model for a higher range of variables taken into account
-####################################################################################
+##################################################################################################
+####### We implement the Knn ML model for a higher range of variables taken into account #########
+##################################################################################################
 
 
 data = here('Input', 'churn_bank.csv')
-# importing the dataset a second time
+# importing the dataset a third time in order
 df = pd.read_csv(data)
 
 df.drop(['Surname', 'CustomerId'], inplace=True, axis=1)
