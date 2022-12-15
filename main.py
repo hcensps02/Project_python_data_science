@@ -65,55 +65,65 @@ sns.histplot(df,x="EstimatedSalary")
 ax.set(title="Estimated Salary Distribution",xlabel="Estimated salary (annual)",ylabel="Frequency")
 
 
-#interactions between variables
+#############Variable interactions
 
 #####Gender
-sns.displot(data=df, x="Age", hue="Geography", kind="kde",common_norm=False)
-sns.displot(data=df, x="Age", hue="Gender", kind="kde",common_norm=False)
-sns.displot(data=df, x="Age", hue="Gender", kind="kde",common_norm=False)
 
+#Age and geography interaction with gender
+fig=sns.histplot(df,x="Age", hue="Gender", stat="density", kde=True, common_norm=False)#common norm = false=> normalize each histogram independantly
+fig.set_xlabel("Age",fontsize=20)
+fig.set_ylabel("Density",fontsize=15)
+plt.setp(fig.get_legend().get_texts(), fontsize='20')
+plt.setp(fig.get_legend().get_title(), fontsize='20')
+
+#Financial variables and gender
 sns.catplot(data=df, x="Gender", y="EstimatedSalary", kind="box")
-
-sns.countplot(x='NumOfProducts', hue='Gender', data=df, palette='hls') #trouver comment partager l'histogramme entre exited non exited
-
-G_nb_products_gender = px.histogram(df, x='Gender', color='NumOfProducts', barnorm = 'fraction', barmode='relative',text_auto=True)
-G_nb_products_gender.show()
-
+fig, ax=plt.subplots(figsize=[7,5])
+sns.countplot(x='NumOfProducts', hue='Gender', data=df, palette='hls').set(xlabel='Number of products contracted by the customer')
 G_CrCard = px.histogram(df, x='Gender', color='HasCrCard', barnorm = 'percent', barmode='relative',text_auto=True)
 G_CrCard.show() #similar between genders
+G_nb_products = px.histogram(df, x='Gender', color='NumOfProducts', barnorm = 'fraction', barmode='relative',text_auto=True).update_yaxes(categoryorder='total ascending')
+G_nb_products.show()#similar shares of nb of products,large part of products 1 and 2
+sns.catplot(data=df, x="Gender", y="Tenure", kind="box")
+
 
 #####Geography
-
-#Pie chart
+#Pie chart : repartition of countries in the dataset
 counts = df['Geography'].value_counts()
 df2 = pd.DataFrame({'Geography': counts},
                      index = ['France', 'Spain', 'Germany']
                    )
 ax = df2.plot.pie(y='Geography', figsize=(5,5), autopct='%1.1f%%')
-sns.displot(data=df, x="Balance", hue="Geography", kind="kde", common_norm=False) #grosse concentration en France et Spain autour de zero et negatif, Germany concentration en positif
-sns.catplot(data=df, x="Geography", y="EstimatedSalary", kind="box")
+sns.displot(data=df, x="Age", hue="Geography", kind="kde",common_norm=False) #Age : similar among countries
 
-##Geography
+#Financial variables
+sns.displot(data=df, x="Balance", hue="Geography", kind="kde", common_norm=False) #Balance : large concentration in France and Spain around zero and negative values, Germany concentrated in positive
+sns.catplot(data=df, x="Geography", y="EstimatedSalary", kind="box")#Estimated Salary : similar among countries
 G_nb_products = px.histogram(df, x='Geography', color='NumOfProducts', barnorm = 'fraction', barmode='relative',text_auto=True).update_yaxes(categoryorder='total ascending')
 G_nb_products.show()#similar shares of nb of products,large part of products 1 and 2
+sns.catplot(data=df, x="Geography", y="Tenure", kind="box")#Tenure : heterogeneous repartition among countries
+
 
 #Exit
 df['Exited'].value_counts()
 sns.countplot(x='Exited', data=df, palette='hls')
 plt.show()
-plt.savefig('count_plot')
 
-#Exited vs non exited
-#g=sns.FacetGrid(df, col="Exited")
-#f=g.map_dataframe(sns.histplot, x="CreditScore") #exited pple have on average less credit score
+#Financial variables
 sns.displot(data=df, x="CreditScore", hue="Exited", kind="kde",common_norm=False).set(xlabel='Credit Score')
 sns.displot(data=df, x="EstimatedSalary", hue="Exited", kind="kde",common_norm=False).set(xlabel='Estimated Salary')
-sns.displot(data=df, x="Balance", hue="Exited", kind="kde",common_norm=False).set(xlabel="Customer's bank account's balance")#common norm = false=> normalize each histogram independantly
+sns.displot(data=df, x="Balance", hue="Exited", kind="kde",common_norm=False).set(xlabel="Customer's bank account's balance")
 
 
 sns.catplot(data=df, x="Exited", y="CreditScore", kind="box").set(ylabel='Credit Score')
 sns.catplot(data=df, x="Exited", y="EstimatedSalary", kind="box").set(ylabel='Estimated Salary')
 sns.catplot(data=df, x="Exited", y="Balance", kind="box").set(ylabel='Balance')
+sns.catplot(data=df, x="Exited", y="Tenure", kind="box")
+
+sns.countplot(x='NumOfProducts', hue='Exited', data=df, palette='hls')
+sns.countplot(x='HasCrCard', hue='Exited', data=df, palette='hls')
+sns.countplot(x='IsActiveMember', hue='Exited', data=df, palette='hls')
+
 
 #socio geograhic factors
 sns.countplot(x='Gender', hue='Exited', data=df, palette='hls')
@@ -121,9 +131,8 @@ sns.histplot(data=df, x="Geography", hue="Exited", multiple="stack")
 sns.displot(data=df, x="Age", hue="Exited", kind="kde",common_norm=False)
 sns.catplot(data=df, x="Exited", y="Age", kind="box")
 #exited people have on average a higher balance, which may be due to the large number of zero-balance among the non exited persons
-#s'explique par une plus grande distribution de 0 balance chez les non exited
 
-df['Balance'].corr(df['EstimatedSalary'])  #correlation 12% between salary and balance, preditible
+df['Balance'].corr(df['EstimatedSalary'])  #positive correlation 12% between salary and balance
 df['Balance'].corr(df['CreditScore'])
 
 
@@ -132,26 +141,18 @@ import statsmodels as sm
 from statsmodels.discrete.discrete_model import Probit
 
 #create dummy variables for categorical variables
-cat_var=['Geography', 'Gender']
-for var in cat_var:
-    cat_list='var'+'_'+var
-    cat_list = pd.get_dummies(df[var], prefix=var)
-    data1=df.join(cat_list)
-    df=data1
-#cat_var=['Geography', 'Gender']
-data_vars=df.columns.values.tolist()
-to_keep=[i for i in data_vars if i not in cat_var]
+data_final=df
+data_final=data_final.join(pd.get_dummies(data_final["Geography"],prefix="Geography")).drop("Geography",axis=1)
+data_final=data_final.join(pd.get_dummies(data_final["Gender"],prefix="Gender")).drop("Gender",axis=1)
 
-data_final=df[to_keep]
-data_final.columns.values
 
 Y = data_final["Exited"]
 X = data_final.drop(['Exited','CustomerId', 'Surname'], axis=1)
-#X = sm.add_constant(X)
 model = Probit(Y, X)
 probit_model = model.fit()
 print(probit_model.summary())
 
+#Export to latex
 f = open('myreg.tex', 'w')
 f.write(probit_model.summary().as_latex())
 
