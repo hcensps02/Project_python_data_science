@@ -222,7 +222,7 @@ best_model_select = pd.DataFrame([data], columns=["KNeighborsClassifier", "Accur
 
 
 data = here('Input', 'churn_bank.csv')
-# importing the dataset a third time in order
+# importing the dataset a third time in order perform the ML analysis with all the variables contained in the data frame
 df = pd.read_csv(data)
 
 df.drop(['Surname', 'CustomerId'], inplace=True, axis=1)
