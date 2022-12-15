@@ -157,8 +157,12 @@ f.write(probit_model.summary().as_latex())
 
 
 ########################################################################################################
-##########       Implementing a simple machine learning model (Knn model)                  #############
 ########################################################################################################
+########################################################################################################
+
+############################################################################################################################
+##########       Implementing a simple machine learning model (Knn model) with a limited set of variables      #############
+############################################################################################################################
 
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import OrdinalEncoder
@@ -171,6 +175,10 @@ from sklearn import model_selection
 from sklearn import preprocessing
 from sklearn import pipeline
 
+
+data = here('Input', 'churn_bank.csv')
+# importing the dataset a second time in order to use for the machine learning part
+df = pd.read_csv(data)
 
 ### preprocessing dataset
 df.drop(['CustomerId', 'Surname', 'Tenure', 'Balance', 'NumOfProducts', 'HasCrCard', 'IsActiveMember'], inplace=True, axis=1)
@@ -212,8 +220,9 @@ best_model_select = pd.DataFrame([data], columns=["KNeighborsClassifier", "Accur
 ### We implement the Knn ML model for a higher range of variables taken into account
 ####################################################################################
 
+
 data = here('Input', 'churn_bank.csv')
-# importing the dataset
+# importing the dataset a second time
 df = pd.read_csv(data)
 
 df.drop(['Surname', 'CustomerId'], inplace=True, axis=1)
